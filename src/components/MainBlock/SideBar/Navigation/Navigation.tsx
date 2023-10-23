@@ -1,25 +1,36 @@
 import React from "react";
-import './Navigation.css';
+import Image from "react-bootstrap/Image"
+import { Container, ListGroup } from "react-bootstrap";
 
-import feedIcon from '../../../../assets/images/leaf.png'
-import collectionIcon from '../../../../assets/images/park.png'
-import recognizeIcon from '../../../../assets/images/photo.png'
+import colImg from "../../../../assets/images/park.png"
+import recImg from "../../../../assets/images/photo.png"
+
+const collectionName: string = "Моя коллекция";
+const recognitionName: string = "Распознавание";
+
+type MenuItemProps = {
+  imgSrc: string;
+  text: string;
+}
+
+const MenuItem: React.FC<MenuItemProps> = (props: MenuItemProps) => {
+  const {imgSrc, text} = props;
+
+  return (
+      <ListGroup.Item className="d-flex flex-row">
+          <Image src={imgSrc} width={20} height={20} />
+          <Container>{text}</Container>
+      </ListGroup.Item>
+  );
+};
 
 export const Navigation: React.FC = () => {
   return (
-    <nav className="nav">
-      <a href='/'>
-        <img src={feedIcon} alt='Feed'/>
-        <span>Feed</span>
-      </a>
-      <a href='/'>
-        <img src={collectionIcon} alt='collection'/>
-        <span>My collection</span>
-      </a>
-      <a href='/'>
-        <img src={recognizeIcon} alt='recognize'/>
-        <span>Recognize</span>
-      </a>
-    </nav>
+    <Container className="mt-5">
+      <ListGroup>
+        <MenuItem imgSrc={colImg} text={collectionName}  />
+        <MenuItem imgSrc={recImg} text={recognitionName} />
+      </ListGroup> 
+    </Container>
   );
 };

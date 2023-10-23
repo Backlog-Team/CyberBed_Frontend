@@ -1,12 +1,11 @@
 import React from 'react';
 import './User.css';
+import { Container } from 'react-bootstrap';
 
 export const User: React.FC = () => {
   return (
-    <div className="user">
-      <div className="userNickname">
-        <h3>Username</h3>
-      </div>
-    </div>
+    <Container className="align-self-start mt-4">
+      <h3>Username</h3>
+    </Container>
   );
 };

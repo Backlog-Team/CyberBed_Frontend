@@ -1,10 +1,10 @@
 import React from "react";
-import './Logout.css'
+import Button from "react-bootstrap/Button";
 
 export const Logout: React.FC = () => {
   return (
-    <button>
+    <Button variant="danger" className="mt-auto mb-4 w-75 container">
       Exit
-    </button>
+    </Button>
   );
 };
