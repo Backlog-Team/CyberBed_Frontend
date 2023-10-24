@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { MainBlock } from './components/MainBlock/MainBlock';
-// import { LoginPage } from './pages/LoginPage/LoginPage';
+import { LoginPage } from './pages/LoginPage/LoginPage';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div className="App">
-      <MainBlock />
+      {isLoggedIn ? (
+        <MainBlock />
+        ) : (
+        <LoginPage />
+      )
+      }
     </div>
   );
 }
