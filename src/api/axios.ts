@@ -1,5 +1,12 @@
 import axios from "axios";
 
-export default axios.create({
-  baseURL: 'http://localhost:8080/api'
+const instance = axios.create({
+  baseURL: "http://localhost:8080/api",
 });
+
+instance.interceptors.request.use((config) => {
+  config.headers.Authorization = window.localStorage?.getItem("session_id");
+  return config;
+});
+
+export default instance;

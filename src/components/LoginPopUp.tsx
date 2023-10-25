@@ -9,18 +9,10 @@ import { MyAlert } from "./Alerts";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLogin, LoginRequest, selectIsAuth } from "../redux/slices/auth";
+import { useCookies } from "react-cookie";
 
 const LOGIN_URL = "/login";
 const SIGNUP_URL = "/signup";
-
-interface LoginResponse {
-  id: number;
-}
-
-// type RefWithFocus = {
-//   current: HTMLElement | null;
-//   focus: () => void;
-// };
 
 const LoginPopUp = () => {
   const [show, setShow] = useState(false);
@@ -28,7 +20,7 @@ const LoginPopUp = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // const isAuth = useSelector(selectIsAuth);
+  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const {
     register,
@@ -37,113 +29,31 @@ const LoginPopUp = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      nickname: "",
-      password: "",
+      username: "milchenko",
+      password: "qwerty123!",
     },
   });
 
   const [signUpState, setSignUpState] = useState(false);
 
-  // const { setAuth } = useAuh();
+  const [cookies] = useCookies(["session_id"]);
 
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
+  const onLoginSubmit = async (values: LoginRequest) => {
+    const data = await dispatch<any>(fetchLogin(values));
+    if (!data.payload) {
+      return alert("Не удалось авторизоваться!");
+    }
+    console.log(cookies.session_id);
 
-  // const [passwordNotMatch, setPasswordNotMatch] = useState(false);
-
-  // const [username, setUser] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [secondPassword, setSecondPassword] = useState('');
-  // const [errMsg, setErrMsg] = useState('');
-  //
-  // const [showAlert, setShowAlert] = useState(true);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowAlert(false);
-  //   }, 10000);
-  // }, [])
-  //
-  // useEffect(() => {
-  //   setErrMsg('');
-  // }, [username, password])
-
-  // const handleLoginSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
-  //
-  //   try {
-  //     const response: AxiosResponse<LoginResponse> = await axios.post(LOGIN_URL,
-  //       JSON.stringify({ username, password }),
-  //       {
-  //         headers: { 'Content-Type': 'application/json' },
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     console.log(response.headers)
-  //     setUser('');
-  //     setPassword('');
-  //
-  //     setAuth({username, password});
-  //
-  //     setShow(false);
-  //   } catch (err: any) {
-  //       if (!err?.response) {
-  //         setErrMsg('No Server Response');
-  //       } else if (err.response?.status === 400) {
-  //         setErrMsg('Missing usernamename or Response');
-  //       } else if (err.response?.status === 401) {
-  //         setErrMsg('Unauthorized');
-  //       } else {
-  //         setErrMsg('Login Failed');
-  //       }
-  //     }
-  //   }
-
-  const onLoginSubmit = (values: LoginRequest) => {
-    dispatch<any>(fetchLogin(values));
+    console.log(data);
   };
+
   const onSignupSubmit = (values: any) => {
     console.log();
   };
-  // const handleSignupSubmit = async (e: FormEvent) => {
-  //   e.preventDefault();
-  //
-  //   if (password !== secondPassword) {
-  //     setPasswordNotMatch(true);
-  //     setShowAlert(true);
-  //     return;
-  //   }
-  //
-  //   try {
-  //     const response: AxiosResponse<LoginResponse> = await axios.post(SIGNUP_URL,
-  //       JSON.stringify({ username, password }),
-  //       {
-  //         headers: { 'Content-Type': 'application/json' },
-  //       }
-  //     );
-  //     console.log(JSON.stringify(response?.data));
-  //
-  //     setUser('');
-  //     setPassword('');
-  //     setSecondPassword('');
-  //
-  //     setShow(false);
-  //   } catch (err: any) {
-  //       if (!err?.response) {
-  //         setErrMsg('No Server Response');
-  //       } else if (err.response?.status === 400) {
-  //         setErrMsg('Missing usernamename or Response');
-  //       } else if (err.response?.status === 401) {
-  //         setErrMsg('Unauthorized');
-  //       } else {
-  //         setErrMsg('Login Failed');
-  //       }
-  //   }
-  // }
 
   return (
     <>
-      {/*{passwordNotMatch && showAlert && <MyAlert type={'warning'} message={'Введенные пароли не совпадают!'} />}*/}
       <Button variant="primary" onClick={handleShow}>
         Войти
       </Button>
@@ -161,16 +71,14 @@ const LoginPopUp = () => {
           <Modal.Body>
             <FloatingLabel label="Никнейм" className="mb-3 ">
               <Form.Control
-                type="nickname"
-                // value={username}
-                {...register("nickname", { required: "Укажите никнейм" })}
+                type="username"
+                {...register("username", { required: "Укажите никнейм" })}
               />
             </FloatingLabel>
 
             <FloatingLabel label="Пароль" className="mb-3">
               <Form.Control
                 type="password"
-                // value={password}
                 {...register("password", { required: "Введите пароль" })}
               />
             </FloatingLabel>
@@ -179,7 +87,6 @@ const LoginPopUp = () => {
               <FloatingLabel label="Повторите пароль" className="mb-3">
                 <Form.Control
                   type="password"
-                  // value={secondPassword}
                   {...register("password", { required: "Повторите пароль" })}
                 />
               </FloatingLabel>
