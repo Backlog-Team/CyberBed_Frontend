@@ -54,7 +54,7 @@ const LoginPopUp = () => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button className="mb-4 w-75" variant="primary" onClick={handleShow}>
         Войти
       </Button>
 

@@ -14,8 +14,8 @@ export const SideBar: React.FC = () => {
       <Container className="sidebarInner h-100 d-flex flex-column">
         <User />
         <Navigation />
-        <LoginPopUp />
         <Logout />
+        <LoginPopUp />
       </Container>
     </Navbar>
   );

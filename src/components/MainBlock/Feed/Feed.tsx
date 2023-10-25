@@ -14,6 +14,24 @@ export const Feed: React.FC = () => {
       <Container className="col">
         <PlantCard />
       </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
+      <Container className="col">
+        <PlantCard />
+      </Container>
     </Container>
   );
 };

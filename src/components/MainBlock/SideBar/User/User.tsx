@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 
 export const User: React.FC = () => {
   return (
-    <Container className="align-self-start mt-4">
+    <Container className="align-self-start text-center mt-4">
       <h3>Username</h3>
     </Container>
   );
