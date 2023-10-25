@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import './App.css';
 import { MainBlock } from './components/MainBlock/MainBlock';
 import { LoginPage } from './pages/LoginPage/LoginPage';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
-    <div className="App">
-      {isLoggedIn ? (
-        <MainBlock />
-        ) : (
-        <LoginPage />
-      )
-      }
-    </div>
+    <Routes>
+        {/* public routes */}
+        <Route path='' element={<MainBlock />} />
+
+        {/* protected routes */}
+
+    </Routes>
   );
 }
 
