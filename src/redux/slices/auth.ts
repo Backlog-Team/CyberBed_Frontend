@@ -24,8 +24,10 @@ export const fetchLogin = createAsyncThunk(
 
 export const fetchSignup = createAsyncThunk(
   "auth/fetchSignup",
-  async (params) => {
-    const { data } = await axios.post("/signup", params);
+  async (params: LoginRequest) => {
+    const { data } = await axios.post("/signup", params, {
+      withCredentials: true,
+    });
     return data;
   },
 );
@@ -36,7 +38,9 @@ export const fetchAuth = createAsyncThunk("auth/fetchAuth", async () => {
 });
 
 export const fetchLogout = createAsyncThunk("auth/fetchLogout", async () => {
-  const { data } = await axios.delete("/logout");
+  const { data } = await axios.delete("/logout", {
+    withCredentials: true,
+  });
   return data;
 });
 
@@ -68,6 +72,18 @@ const authSlice = createSlice({
         state.status = "error";
         state.data = null;
       })
+      .addCase(fetchSignup.pending, (state) => {
+        state.status = "loading";
+        state.data = null;
+      })
+      .addCase(fetchSignup.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchSignup.rejected, (state) => {
+        state.status = "error";
+        state.data = null;
+      })
       .addCase(fetchAuth.pending, (state) => {
         state.status = "loading";
         state.data = null;
@@ -77,6 +93,18 @@ const authSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(fetchAuth.rejected, (state) => {
+        state.status = "error";
+        state.data = null;
+      })
+      .addCase(fetchLogout.pending, (state) => {
+        state.status = "loading";
+        state.data = null;
+      })
+      .addCase(fetchLogout.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchLogout.rejected, (state) => {
         state.status = "error";
         state.data = null;
       });

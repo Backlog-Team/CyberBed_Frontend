@@ -5,14 +5,9 @@ import { Alert, FloatingLabel, Form } from "react-bootstrap";
 import axios from "../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
-import { MyAlert } from "./Alerts";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLogin, LoginRequest, selectIsAuth } from "../redux/slices/auth";
-import { useCookies } from "react-cookie";
-
-const LOGIN_URL = "/login";
-const SIGNUP_URL = "/signup";
+import { fetchLogin, fetchSignup, LoginRequest, selectIsAuth } from "../redux/slices/auth";
 
 const LoginPopUp = () => {
   const [show, setShow] = useState(false);
@@ -29,32 +24,28 @@ const LoginPopUp = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      username: "milchenko",
-      password: "qwerty123!",
+      username: "",
+      password: "",
     },
   });
 
   const [signUpState, setSignUpState] = useState(false);
 
-  const [cookies] = useCookies(["session_id"]);
-
   const onLoginSubmit = async (values: LoginRequest) => {
     const data = await dispatch<any>(fetchLogin(values));
-    if (!data.payload) {
-      return alert("Не удалось авторизоваться!");
-    }
-    console.log(cookies.session_id);
-
-    console.log(data);
   };
 
-  const onSignupSubmit = (values: any) => {
-    console.log();
+  const onSignupSubmit = async (values: LoginRequest) => {
+    const response = await dispatch<any>(fetchSignup(values));
   };
 
   return (
     <>
-      <Button className="mb-4 w-75" variant="primary" onClick={handleShow}>
+      <Button
+        className="mt-auto mb-4 w-75"
+        variant="primary"
+        onClick={handleShow}
+      >
         Войти
       </Button>
 
